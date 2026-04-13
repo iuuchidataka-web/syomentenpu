@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>書面添付作成補助アプリ 更新のご案内</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: 'Hiragino Kaku Gothic ProN', 'Yu Gothic', 'Meiryo', sans-serif;
+  background: #f0f4f8;
+  color: #1a202c;
+  line-height: 1.8;
+  font-size: 15px;
+}
+.container {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 32px 24px 64px;
+}
+.header {
+  background: linear-gradient(135deg, #1e3a8a, #2563eb);
+  color: #fff;
+  padding: 32px 24px;
+  text-align: center;
+}
+.header h1 { font-size: 22px; font-weight: 700; margin-bottom: 8px; }
+.header .date { font-size: 13px; opacity: 0.85; }
+.trial-badge {
+  display: inline-block;
+  background: rgba(255,255,255,0.2);
+  border: 1px solid rgba(255,255,255,0.4);
+  border-radius: 4px;
+  padding: 2px 10px;
+  font-size: 12px;
+  margin-top: 8px;
+}
+.apology {
+  background: #fef2f2;
+  border: 2px solid #fca5a5;
+  border-radius: 12px;
+  padding: 24px 28px;
+  margin-top: 32px;
+}
+.apology h2 { font-size: 17px; color: #991b1b; margin-bottom: 12px; }
+.apology p { color: #7f1d1d; font-size: 14px; }
+.section {
+  background: #fff;
+  border-radius: 12px;
+  padding: 28px;
+  margin-top: 24px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+}
+.section h2 {
+  font-size: 17px;
+  color: #1e3a8a;
+  margin-bottom: 16px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid #dbeafe;
+}
+.section p { margin-bottom: 12px; font-size: 14px; }
+.diagram {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 24px 20px;
+  margin: 16px 0;
+  text-align: center;
+}
+.diagram-title { font-size: 13px; color: #64748b; margin-bottom: 16px; }
+.diagram-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+}
+.diagram-box {
+  background: #fff;
+  border: 2px solid #93c5fd;
+  border-radius: 8px;
+  padding: 12px 24px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #1e40af;
+  width: 340px;
+  max-width: 100%;
+}
+.diagram-box.browser { background: #dbeafe; border-color: #2563eb; }
+.diagram-box.auto { background: #dbeafe; border-color: #2563eb; }
+.diagram-box.file { background: #dcfce7; border-color: #22c55e; color: #166534; }
+.diagram-box.old { background: #fef3c7; border-color: #f59e0b; color: #92400e; }
+.diagram-box.danger { background: #fee2e2; border-color: #ef4444; color: #991b1b; }
+.diagram-box.dl { background: #ede9fe; border-color: #8b5cf6; color: #5b21b6; }
+.diagram-box.manual { background: #dbeafe; border-color: #1e40af; color: #1e3a8a; border-width: 3px; }
+.diagram-arrow { font-size: 24px; color: #94a3b8; padding: 4px 0; }
+.diagram-note { font-size: 12px; color: #64748b; margin-top: 12px; }
+.diagram-plus { font-size: 18px; color: #64748b; padding: 4px 0; font-weight: 700; }
+.compare-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 16px 0;
+  font-size: 13px;
+}
+.compare-table th {
+  background: #1e3a8a;
+  color: #fff;
+  padding: 10px 12px;
+  text-align: left;
+  font-weight: 600;
+}
+.compare-table td {
+  padding: 10px 12px;
+  border-bottom: 1px solid #e2e8f0;
+}
+.compare-table tr:nth-child(even) td { background: #f8fafc; }
+.badge-ok {
+  display: inline-block;
+  background: #dcfce7;
+  color: #166534;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+.badge-main {
+  display: inline-block;
+  background: #dbeafe;
+  color: #1e40af;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+.badge-sub {
+  display: inline-block;
+  background: #f3f4f6;
+  color: #6b7280;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+.steps {
+  counter-reset: step;
+  list-style: none;
+  padding: 0;
+}
+.steps li {
+  counter-increment: step;
+  padding: 14px 16px 14px 56px;
+  position: relative;
+  margin-bottom: 8px;
+  background: #f8fafc;
+  border-radius: 8px;
+  font-size: 14px;
+}
+.steps li::before {
+  content: counter(step);
+  position: absolute;
+  left: 16px;
+  top: 14px;
+  width: 28px;
+  height: 28px;
+  background: #2563eb;
+  color: #fff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 700;
+}
+.steps li strong { color: #1e3a8a; }
+.caution {
+  background: #fffbeb;
+  border: 1px solid #fbbf24;
+  border-radius: 8px;
+  padding: 16px 20px;
+  margin: 16px 0;
+  font-size: 13px;
+}
+.caution-title { font-weight: 700; color: #92400e; margin-bottom: 4px; }
+.important-box {
+  background: #eff6ff;
+  border: 2px solid #2563eb;
+  border-radius: 8px;
+  padding: 16px 20px;
+  margin: 16px 0;
+  font-size: 14px;
+}
+.important-box strong { color: #1e3a8a; }
+.footer {
+  text-align: center;
+  margin-top: 40px;
+  padding: 20px;
+  font-size: 12px;
+  color: #94a3b8;
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>書面添付作成補助アプリ 更新のご案内</h1>
+  <div class="date">2026年4月13日</div>
+  <div class="trial-badge">現在トライアル版</div>
+</div>
+
+<div class="container">
+
+  <div class="apology">
+    <h2>お詫び</h2>
+    <p>
+      このたび、旧バージョンのアプリ（2026年3月版等）をお使いいただいた一部の方において、入力いただいた案件データが正しく保存できず、データの復元が困難となる事象が発生いたしました。
+    </p>
+    <p style="margin-top:8px;">
+      これはアプリ側の設計上の問題であり、利用者の皆様の操作に起因するものではありません。ご不便・ご迷惑をおかけしましたことを深くお詫び申し上げます。
+    </p>
+    <p style="margin-top:8px;">
+      原因の特定と対策を行い、最新バージョン（2026年4月13日版）にて改修を完了しております。以下にその内容をご説明いたします。
+    </p>
+  </div>
+
+  <div class="section">
+    <h2>何が起きたのか</h2>
+    <p>
+      旧バージョンのアプリでは、案件データ（選んだ例文、入力した案件情報、編集した内容など）は<strong>ブラウザを開いている間だけ</strong>一時的に保持される仕組みでした。
+    </p>
+    <p>
+      そのため、<strong>「データ保存」ボタンでファイルを保存せずにブラウザを閉じてしまうと、入力した内容がすべて失われてしまう</strong>状態でした。
+    </p>
+
+    <div class="diagram">
+      <div class="diagram-title">【旧バージョンの仕組み】</div>
+      <div class="diagram-col">
+        <div class="diagram-box browser">アプリで入力・編集</div>
+        <div class="diagram-arrow">&#x25BC;</div>
+        <div class="diagram-box old">ブラウザのメモリに一時保持</div>
+        <div class="diagram-arrow">&#x25BC;</div>
+        <div class="diagram-box danger">ブラウザを閉じると消失</div>
+      </div>
+      <div class="diagram-note">※ ファイル保存をしないと、入力内容が残りませんでした</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>最新版での改修内容</h2>
+    <p>
+      最新版（2026年4月13日版）では、万が一の保存漏れに備えて<strong>3つの保存の仕組み</strong>を用意しました。
+    </p>
+
+    <div class="important-box">
+      <strong>基本は毎回「データ保存」ボタンでの手動保存をお願いします。</strong><br>
+      以下の自動保存はあくまで保存し忘れた場合の補助機能です。手動保存を習慣にしていただくことが最も安全です。
+    </div>
+
+    <div class="diagram">
+      <div class="diagram-title">【最新版の3つの保存体制】</div>
+      <div class="diagram-col">
+        <div class="diagram-box manual">1. 手動保存（基本・推奨）</div>
+        <div style="font-size:12px;color:#1e3a8a;padding:2px 0;">「データ保存」ボタンでJSONファイルを保存</div>
+        <div class="diagram-plus">＋</div>
+        <div class="diagram-box auto">2. ブラウザ内に自動保存</div>
+        <div style="font-size:12px;color:#64748b;padding:2px 0;">操作のたびに自動で保存・次回起動時に復元</div>
+        <div class="diagram-plus">＋</div>
+        <div class="diagram-box dl">3. 閉じる時に自動ダウンロード</div>
+        <div style="font-size:12px;color:#64748b;padding:2px 0;">ブラウザを閉じると自動でファイルを保存</div>
+      </div>
+      <div class="diagram-note">※ 2と3は保存漏れ防止の補助機能です</div>
+    </div>
+
+    <table class="compare-table">
+      <tr>
+        <th>保存の仕組み</th>
+        <th>タイミング</th>
+        <th>位置づけ</th>
+      </tr>
+      <tr>
+        <td>手動保存（データ保存ボタン）</td>
+        <td>作業の区切りごと</td>
+        <td><span class="badge-main">基本・推奨</span></td>
+      </tr>
+      <tr>
+        <td>ブラウザ内に自動保存</td>
+        <td>操作するたびに自動</td>
+        <td><span class="badge-sub">補助</span></td>
+      </tr>
+      <tr>
+        <td>閉じる時の自動ダウンロード</td>
+        <td>ブラウザを閉じた時に自動</td>
+        <td><span class="badge-sub">補助</span></td>
+      </tr>
+    </table>
+
+    <p>自動保存される内容は、手動保存と同じです。</p>
+
+    <table class="compare-table">
+      <tr>
+        <th>保存される項目</th>
+        <th></th>
+      </tr>
+      <tr><td>選択した例文</td><td><span class="badge-ok">保存</span></td></tr>
+      <tr><td>例文を手動で編集した内容</td><td><span class="badge-ok">保存</span></td></tr>
+      <tr><td>新規追加（自由入力）した内容</td><td><span class="badge-ok">保存</span></td></tr>
+      <tr><td>例文の並び順</td><td><span class="badge-ok">保存</span></td></tr>
+      <tr><td>案件情報（被相続人名、日付など）</td><td><span class="badge-ok">保存</span></td></tr>
+      <tr><td>セクション6のテキスト</td><td><span class="badge-ok">保存</span></td></tr>
+    </table>
+  </div>
+
+  <div class="section">
+    <h2>ご利用にあたってのお願い</h2>
+
+    <p>最新版アプリをお使いいただく際は、以下の手順をお願いいたします。</p>
+
+    <ol class="steps">
+      <li>
+        <strong>最新版のアプリファイルをダウンロードしてください。</strong><br>
+        ファイル名：「20260413 書面添付作成補助アプリ（HTML単体版）.html」
+      </li>
+      <li>
+        <strong>まずは少しだけ入力して、保存と読み込みをお試しください。</strong><br>
+        適当な例文を1～2個選んで「データ保存」でファイルを保存した後、ブラウザを一度閉じて再度開き、内容が復元されていることをご確認ください。
+      </li>
+      <li>
+        <strong>動作が確認できたら、本格的な作業を進めてください。</strong><br>
+        作業の区切りでは必ず「データ保存」ボタンでファイルを保存してください。自動保存はあくまで万が一の備えです。
+      </li>
+    </ol>
+
+    <div class="caution">
+      <div class="caution-title">旧バージョンをお使いの方へ</div>
+      <p>
+        旧バージョン（2026年3月版など）のアプリには自動保存機能がありません。旧バージョンをお使いの場合、同様の問題が発生する可能性がありますので、必ず最新版への切り替えをお願いいたします。
+      </p>
+    </div>
+
+    <div class="caution">
+      <div class="caution-title">自動保存の注意点</div>
+      <p>
+        ブラウザ内の自動保存データは、同じブラウザで同じアプリを開いた場合にのみ復元されます。別のブラウザや別のパソコンでは復元されませんので、案件データの管理は「データ保存」ボタンでのファイル保存を基本としてください。
+      </p>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>今後の対応について</h2>
+    <p>
+      今回の事象を受け、同様の問題が再発しないよう、以下の方針で対応してまいります。
+    </p>
+    <ul style="padding-left:20px;font-size:14px;">
+      <li style="margin-bottom:8px;">入力データの保存漏れを防ぐ仕組みを強化します。</li>
+      <li style="margin-bottom:8px;">バージョン更新の際は、事前に保存・復元の動作確認を行った上でリリースいたします。</li>
+      <li style="margin-bottom:8px;">お気づきの点やご不明な点がございましたら、お気軽にお問い合わせください。</li>
+    </ul>
+    <p style="font-size:13px;color:#64748b;margin-top:16px;">
+      なお、本アプリは現段階ではトライアル版として提供しております。まずは補助的にお使いいただき、お気づきの点やご要望がございましたらフィードバックをいただけますと幸いです。皆様のご意見をもとに改善を進めてまいります。
+    </p>
+  </div>
+
+  <div class="footer">
+    書面添付作成補助アプリ 更新案内 - 2026年4月13日
+  </div>
+
+</div>
+
+</body>
+</html>
